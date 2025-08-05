@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-wiza",
+  "name": "@wiza/n8n-nodes-wiza",
   "version": "0.1.0",
   "description": "n8n node for Wiza contact enrichment API",
   "keywords": [
