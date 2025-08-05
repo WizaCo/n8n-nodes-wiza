@@ -1,48 +1,215 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-wiza
 
-# n8n-nodes-starter
+An n8n community node for integrating with the [Wiza](https://wiza.co) contact enrichment API. Find email addresses, phone numbers, and LinkedIn profiles for your prospects using multiple data sources.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+![Wiza Logo](https://wiza.co/favicon.png)
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## Features
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+### 🔍 **Email Finder**
+Find verified work and personal email addresses using:
+- LinkedIn profile URLs
+- Contact details (name + company/domain)
+- Multiple data points for best results
 
-## Prerequisites
+### 📞 **Phone Finder**
+Find mobile and direct dial phone numbers using:
+- Email addresses
+- LinkedIn profile URLs  
+- Contact details (name + company/domain)
+- Multiple data points for best results
 
-You need the following installed on your development machine:
+### 💼 **LinkedIn Profile Finder**
+Find LinkedIn profiles and extract key details using:
+- Email addresses
+- LinkedIn URLs (for enhanced profile data)
+- Contact details (name + company/domain)
+- Multiple data points for best results
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+## Installation
 
-## Using this starter
+### Community Nodes (Recommended)
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+1. Go to **Settings > Community Nodes** in your n8n instance
+2. Select **Install a community node**
+3. Enter `n8n-nodes-wiza`
+4. Click **Install**
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+### Manual Installation
 
-## More information
+```bash
+# In your n8n root directory
+npm install n8n-nodes-wiza
+```
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+### Docker
+
+```bash
+# Using environment variable
+N8N_NODES_INCLUDE=n8n-nodes-wiza
+
+# Or in docker-compose.yml
+environment:
+  N8N_NODES_INCLUDE: "n8n-nodes-wiza"
+```
+
+## Setup
+
+### 1. Get Your API Key
+
+1. Sign up at [wiza.co](https://wiza.co)
+2. Navigate to **Settings > API** 
+3. Generate your API key
+
+### 2. Configure Credentials
+
+1. In n8n, go to **Credentials**
+2. Click **Create New** 
+3. Search for **Wiza API**
+4. Enter your API key
+5. Click **Save**
+
+## Usage
+
+### Basic Email Finding
+
+```json
+{
+  "operation": "Email Finder",
+  "inputType": "Contact Details", 
+  "fullName": "John Doe",
+  "company": "Acme Corp"
+}
+```
+
+### Phone Number Lookup
+
+```json
+{
+  "operation": "Phone Finder",
+  "inputType": "Email",
+  "email": "john@acme.com"
+}
+```
+
+### LinkedIn Profile Enhancement
+
+```json
+{
+  "operation": "LinkedIn Profile Finder", 
+  "inputType": "All Fields",
+  "email": "john@acme.com",
+  "fullName": "John Doe",
+  "company": "acme.com"
+}
+```
+
+## Input Types
+
+### 📧 **Email**
+Provide an email address to find phone numbers or LinkedIn profiles.
+
+### 🔗 **LinkedIn URL** 
+Provide a LinkedIn profile URL to find emails, phone numbers, or enhanced profile data.
+
+### 👤 **Contact Details**
+Provide name and company/domain to find emails, phone numbers, or LinkedIn profiles.
+
+### 🎯 **All Fields** *(Recommended)*
+Provide any combination of email, LinkedIn URL, name, and company for best results. All fields are optional - the more data you provide, the better the results.
+
+## Response Data
+
+### Email Finder Response
+```json
+{
+  "email": "john@acme.com",
+  "email_type": "work", 
+  "email_status": "valid",
+  "name": "John Doe",
+  "company": "Acme Corp",
+  "title": "CEO",
+  "linkedin_profile_url": "https://linkedin.com/in/johndoe"
+}
+```
+
+### Phone Finder Response  
+```json
+{
+  "phone_number": "+1234567890",
+  "phone_status": "found",
+  "mobile_phone": "+1234567890", 
+  "name": "John Doe",
+  "company": "Acme Corp",
+  "email": "john@acme.com"
+}
+```
+
+### LinkedIn Profile Finder Response
+```json
+{
+  "linkedin_profile_url": "https://linkedin.com/in/johndoe",
+  "name": "John Doe", 
+  "title": "CEO",
+  "company": "Acme Corp",
+  "location": "New York, NY",
+  "company_domain": "acme.com"
+}
+```
+
+## Configuration Options
+
+### **Timeout**
+- **Default**: 300 seconds (5 minutes)
+- **Description**: Maximum time to wait for enrichment completion
+- **Range**: 30-600 seconds
+
+### **Email Type** *(Email Finder only)*
+- **Work**: Professional emails (john@company.com)
+- **Personal**: Personal emails (john.doe@gmail.com) 
+- **Any**: Both work and personal emails
+
+## Error Handling
+
+The node handles various error scenarios:
+
+- **Invalid API Key**: Check your credentials
+- **Rate Limiting**: Automatic retry with backoff
+- **Timeout**: Enrichment took too long to complete
+- **No Results**: No data found for the provided input
+- **Invalid Input**: Missing required fields or invalid format
+
+## Workflow Examples
+
+### Lead Enrichment Pipeline
+```
+Webhook → Wiza Email Finder → Wiza Phone Finder → CRM Update
+```
+
+### LinkedIn Outreach Prep
+```
+CSV Import → Wiza LinkedIn Finder → Message Personalization → LinkedIn Automation
+```
+
+### Data Validation Flow
+```
+Database Query → Wiza Email Finder → Email Validation → Clean Database Update
+```
+
+## Support
+
+- **Documentation**: [wiza.co/api-docs](https://wiza.co/api-docs)
+- **Issues**: [GitHub Issues](https://github.com/WizaCo/n8n-nodes-wiza/issues)
+- **Wiza Support**: hello@wiza.com
 
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+[MIT](LICENSE.md)
+
+## Contributing
+
+Contributions are welcome! Please read our [contributing guidelines](CODE_OF_CONDUCT.md) and submit pull requests to the main repository.
+
+---
+
+Made with ❤️ by the Wiza team
