@@ -1,0 +1,20 @@
+{
+	"node": "n8n-nodes-base.Wiza",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Marketing & Content"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://wiza.co/api-docs"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://wiza.co/api-docs"
+			}
+		]
+	}
+}
