@@ -373,7 +373,12 @@ export class Wiza implements INodeType {
 							// Still processing, continue polling
 							continue;
 						}
-						throw error;
+						if (error instanceof NodeOperationError) {
+							throw error;
+						}
+						throw new NodeOperationError(this.getNode(), error, {
+							itemIndex: i,
+						});
 					}
 				}
 
