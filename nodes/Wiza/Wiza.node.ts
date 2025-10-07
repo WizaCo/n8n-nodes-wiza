@@ -27,14 +27,6 @@ export class Wiza implements INodeType {
 				required: false,
 			},
 		],
-		requestDefaults: {
-			baseURL: 'https://wiza.co',
-			url: '',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		},
 		properties: [
 			{
 				displayName: 'Operation',
@@ -318,6 +310,10 @@ export class Wiza implements INodeType {
 				const startResponse = await this.helpers.requestWithAuthentication.call(this, 'wizaApi', {
 					method: 'POST',
 					url: 'https://wiza.co/api/individual_reveals',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+					},
 					body,
 					json: true,
 				});
@@ -353,6 +349,10 @@ export class Wiza implements INodeType {
 							{
 								method: 'GET',
 								url: `https://wiza.co/api/individual_reveals/${revealId}`,
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',
+								},
 								json: true,
 							},
 						);
