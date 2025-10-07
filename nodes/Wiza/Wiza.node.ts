@@ -258,6 +258,45 @@ export class Wiza implements INodeType {
 				const inputType = this.getNodeParameter('inputType', i) as string;
 				const additionalFields = this.getNodeParameter('additionalFields', i) as any;
 
+				// Validate required fields based on inputType
+				if (inputType === 'email') {
+					const email = this.getNodeParameter('email', i) as string;
+					if (!email || email.trim() === '') {
+						throw new NodeOperationError(
+							this.getNode(),
+							'Email is required when using Email input type',
+							{ itemIndex: i }
+						);
+					}
+				} else if (inputType === 'linkedinUrl') {
+					const linkedinUrl = this.getNodeParameter('linkedinUrl', i) as string;
+					if (!linkedinUrl || linkedinUrl.trim() === '') {
+						throw new NodeOperationError(
+							this.getNode(),
+							'LinkedIn URL is required when using LinkedIn URL input type',
+							{ itemIndex: i }
+						);
+					}
+				} else if (inputType === 'contactDetails') {
+					const fullName = this.getNodeParameter('fullName', i) as string;
+					const company = this.getNodeParameter('company', i) as string;
+
+					if (!fullName || fullName.trim() === '') {
+						throw new NodeOperationError(
+							this.getNode(),
+							'Full Name is required when using Contact Details input type',
+							{ itemIndex: i }
+						);
+					}
+					if (!company || company.trim() === '') {
+						throw new NodeOperationError(
+							this.getNode(),
+							'Company/Domain is required when using Contact Details input type',
+							{ itemIndex: i }
+						);
+					}
+				}
+
 				// Map operations to enrichment levels
 				let enrichmentLevel: string;
 				if (operation === 'emailFinder') {

@@ -85,12 +85,14 @@ describe('Wiza Node', () => {
 				.mockReturnValueOnce('emailFinder')
 				.mockReturnValueOnce('email')
 				.mockReturnValueOnce({})
-				.mockReturnValueOnce('test1@example.com')
+				.mockReturnValueOnce('test1@example.com') // validation
+				.mockReturnValueOnce('test1@example.com') // actual use
 				// Second item succeeds
 				.mockReturnValueOnce('emailFinder')
 				.mockReturnValueOnce('email')
 				.mockReturnValueOnce({})
-				.mockReturnValueOnce('test2@example.com');
+				.mockReturnValueOnce('test2@example.com') // validation
+				.mockReturnValueOnce('test2@example.com'); // actual use
 
 			const apiError = new Error('API Error');
 			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock)
@@ -124,9 +126,9 @@ describe('Wiza Node', () => {
 
 			// Setup parameters for all items
 			(mockExecuteFunctions.getNodeParameter as jest.Mock)
-				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test1@example.com')
-				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test2@example.com')
-				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test3@example.com');
+				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test1@example.com').mockReturnValueOnce('test1@example.com')
+				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test2@example.com').mockReturnValueOnce('test2@example.com')
+				.mockReturnValueOnce('emailFinder').mockReturnValueOnce('email').mockReturnValueOnce({}).mockReturnValueOnce('test3@example.com').mockReturnValueOnce('test3@example.com');
 
 			const error1 = new Error('Error 1');
 			const error3 = new Error('Error 3');
@@ -143,6 +145,61 @@ describe('Wiza Node', () => {
 			expect(result[0][0].pairedItem).toBe(0);
 			expect(result[0][1].pairedItem).toEqual({ item: 1 });
 			expect(result[0][2].pairedItem).toBe(2);
+		});
+	});
+
+	describe('input validation', () => {
+		it('should throw error when email is empty for email input type', async () => {
+			const inputData: INodeExecutionData[] = [{ json: { test: 'data' } }];
+
+			(mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(inputData);
+			(mockExecuteFunctions.getNodeParameter as jest.Mock)
+				.mockReturnValueOnce('emailFinder')
+				.mockReturnValueOnce('email')
+				.mockReturnValueOnce({})
+				.mockReturnValueOnce(''); // empty email
+
+			await expect(wiza.execute.call(mockExecuteFunctions)).rejects.toThrow('Email is required when using Email input type');
+		});
+
+		it('should throw error when LinkedIn URL is empty for linkedinUrl input type', async () => {
+			const inputData: INodeExecutionData[] = [{ json: { test: 'data' } }];
+
+			(mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(inputData);
+			(mockExecuteFunctions.getNodeParameter as jest.Mock)
+				.mockReturnValueOnce('emailFinder')
+				.mockReturnValueOnce('linkedinUrl')
+				.mockReturnValueOnce({})
+				.mockReturnValueOnce('   '); // whitespace only
+
+			await expect(wiza.execute.call(mockExecuteFunctions)).rejects.toThrow('LinkedIn URL is required when using LinkedIn URL input type');
+		});
+
+		it('should throw error when fullName is empty for contactDetails input type', async () => {
+			const inputData: INodeExecutionData[] = [{ json: { test: 'data' } }];
+
+			(mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(inputData);
+			(mockExecuteFunctions.getNodeParameter as jest.Mock)
+				.mockReturnValueOnce('emailFinder')
+				.mockReturnValueOnce('contactDetails')
+				.mockReturnValueOnce({})
+				.mockReturnValueOnce(''); // empty fullName
+
+			await expect(wiza.execute.call(mockExecuteFunctions)).rejects.toThrow('Full Name is required when using Contact Details input type');
+		});
+
+		it('should throw error when company is empty for contactDetails input type', async () => {
+			const inputData: INodeExecutionData[] = [{ json: { test: 'data' } }];
+
+			(mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(inputData);
+			(mockExecuteFunctions.getNodeParameter as jest.Mock)
+				.mockReturnValueOnce('emailFinder')
+				.mockReturnValueOnce('contactDetails')
+				.mockReturnValueOnce({})
+				.mockReturnValueOnce('John Doe') // valid fullName
+				.mockReturnValueOnce(''); // empty company
+
+			await expect(wiza.execute.call(mockExecuteFunctions)).rejects.toThrow('Company/Domain is required when using Contact Details input type');
 		});
 	});
 
