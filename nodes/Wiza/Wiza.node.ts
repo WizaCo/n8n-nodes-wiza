@@ -4,13 +4,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
-
-function sleep(ms: number): Promise<void> {
-	return new Promise((resolve) => {
-		(globalThis as any).setTimeout(() => resolve(), ms);
-	});
-}
+import { NodeConnectionTypes, NodeOperationError, sleep } from 'n8n-workflow';
 
 export class Wiza implements INodeType {
 	description: INodeTypeDescription = {
@@ -24,8 +18,8 @@ export class Wiza implements INodeType {
 		defaults: {
 			name: 'Wiza',
 		},
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		usableAsTool: true,
 		credentials: [
 			{
