@@ -261,23 +261,24 @@ export class Wiza implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 
 		for (let i = 0; i < items.length; i++) {
-			const operation = this.getNodeParameter('operation', i) as string;
-			const inputType = this.getNodeParameter('inputType', i) as string;
-			const additionalFields = this.getNodeParameter('additionalFields', i) as any;
+			try {
+				const operation = this.getNodeParameter('operation', i) as string;
+				const inputType = this.getNodeParameter('inputType', i) as string;
+				const additionalFields = this.getNodeParameter('additionalFields', i) as any;
 
-			// Map operations to enrichment levels
-			let enrichmentLevel: string;
-			if (operation === 'emailFinder') {
-				enrichmentLevel = 'partial';
-			} else if (operation === 'phoneFinder') {
-				enrichmentLevel = 'phone';
-			} else if (operation === 'linkedinFinder') {
-				enrichmentLevel = 'none';
-			} else {
-				enrichmentLevel = 'partial';
-			}
+				// Map operations to enrichment levels
+				let enrichmentLevel: string;
+				if (operation === 'emailFinder') {
+					enrichmentLevel = 'partial';
+				} else if (operation === 'phoneFinder') {
+					enrichmentLevel = 'phone';
+				} else if (operation === 'linkedinFinder') {
+					enrichmentLevel = 'none';
+				} else {
+					enrichmentLevel = 'partial';
+				}
 
-			if (['emailFinder', 'phoneFinder', 'linkedinFinder'].includes(operation)) {
+				if (['emailFinder', 'phoneFinder', 'linkedinFinder'].includes(operation)) {
 				// Build individual_reveal object based on input type
 				const individualReveal: any = {};
 
@@ -384,6 +385,20 @@ export class Wiza implements INodeType {
 					json: finalResult,
 					pairedItem: { item: i },
 				});
+				}
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({ json: this.getInputData(i)[0].json, error, pairedItem: i });
+					continue;
+				} else {
+					if (error.context) {
+						error.context.itemIndex = i;
+						throw error;
+					}
+					throw new NodeOperationError(this.getNode(), error, {
+						itemIndex: i,
+					});
+				}
 			}
 		}
 
