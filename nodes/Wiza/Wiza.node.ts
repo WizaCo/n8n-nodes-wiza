@@ -24,7 +24,7 @@ export class Wiza implements INodeType {
 		credentials: [
 			{
 				name: 'wizaApi',
-				required: false,
+				required: true,
 			},
 		],
 		properties: [

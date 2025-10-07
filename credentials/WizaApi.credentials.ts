@@ -9,7 +9,7 @@ export class WizaApi implements ICredentialType {
 	name = 'wizaApi';
 	displayName = 'Wiza API';
 	documentationUrl = 'https://wiza.co/api-docs';
-	
+
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',
@@ -35,12 +35,8 @@ export class WizaApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://wiza.co',
-			url: '/api/individual_reveals',
-			method: 'POST',
-			body: {
-				email: 'test@example.com',
-				enrichment_level: 'none'
-			},
+			url: '/api/meta/credits',
+			method: 'GET',
 		},
 	};
 }
