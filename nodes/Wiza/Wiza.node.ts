@@ -346,7 +346,7 @@ export class Wiza implements INodeType {
 				}
 
 				// Start the enrichment
-				const startResponse = await this.helpers.requestWithAuthentication.call(this, 'wizaApi', {
+				const startResponse = await this.helpers.httpRequestWithAuthentication.call(this, 'wizaApi', {
 					method: 'POST',
 					url: 'https://wiza.co/api/individual_reveals',
 					headers: {
@@ -382,7 +382,7 @@ export class Wiza implements INodeType {
 					attemptIndex++;
 
 					try {
-						const statusResponse = await this.helpers.requestWithAuthentication.call(
+						const statusResponse = await this.helpers.httpRequestWithAuthentication.call(
 							this,
 							'wizaApi',
 							{

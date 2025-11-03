@@ -14,7 +14,7 @@ describe('Wiza Node', () => {
 			getNode: jest.fn(() => ({ name: 'Wiza', type: 'wiza', typeVersion: 1, id: 'test' })),
 			continueOnFail: jest.fn(),
 			helpers: {
-				requestWithAuthentication: jest.fn(),
+				httpRequestWithAuthentication: jest.fn(),
 			},
 		} as unknown as IExecuteFunctions;
 	});
@@ -35,7 +35,7 @@ describe('Wiza Node', () => {
 				.mockReturnValueOnce('test@example.com'); // email
 
 			(mockExecuteFunctions.continueOnFail as jest.Mock).mockReturnValue(false);
-			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock).mockRejectedValue(
+			(mockExecuteFunctions.helpers.httpRequestWithAuthentication as jest.Mock).mockRejectedValue(
 				new Error('API Error'),
 			);
 
@@ -58,7 +58,7 @@ describe('Wiza Node', () => {
 
 			(mockExecuteFunctions.continueOnFail as jest.Mock).mockReturnValue(true);
 			const apiError = new Error('API Error');
-			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock).mockRejectedValue(
+			(mockExecuteFunctions.helpers.httpRequestWithAuthentication as jest.Mock).mockRejectedValue(
 				apiError,
 			);
 
@@ -95,7 +95,7 @@ describe('Wiza Node', () => {
 				.mockReturnValueOnce('test2@example.com'); // actual use
 
 			const apiError = new Error('API Error');
-			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock)
+			(mockExecuteFunctions.helpers.httpRequestWithAuthentication as jest.Mock)
 				.mockRejectedValueOnce(apiError) // First item fails
 				.mockResolvedValueOnce({ data: { id: 'reveal123' } }) // Second item start
 				.mockResolvedValueOnce({ data: { id: 'reveal123', is_complete: true, email: 'found@example.com' } }); // Second item result
@@ -133,7 +133,7 @@ describe('Wiza Node', () => {
 			const error1 = new Error('Error 1');
 			const error3 = new Error('Error 3');
 
-			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock)
+			(mockExecuteFunctions.helpers.httpRequestWithAuthentication as jest.Mock)
 				.mockRejectedValueOnce(error1) // Item 0 fails
 				.mockResolvedValueOnce({ data: { id: 'reveal2' } })
 				.mockResolvedValueOnce({ data: { id: 'reveal2', is_complete: true, result: 'success2' } }) // Item 1 succeeds
@@ -224,7 +224,7 @@ describe('Wiza Node', () => {
 				email: 'found@example.com',
 			};
 
-			(mockExecuteFunctions.helpers.requestWithAuthentication as jest.Mock)
+			(mockExecuteFunctions.helpers.httpRequestWithAuthentication as jest.Mock)
 				.mockResolvedValueOnce({ data: { id: 'reveal123' } })
 				.mockResolvedValueOnce({ data: mockRevealData });
 
