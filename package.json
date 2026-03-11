@@ -55,5 +55,10 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "overrides": {
+    "glob": ">=10.5.0",
+    "js-yaml": ">=4.1.1",
+    "minimatch": ">=9.0.7"
   }
 }
