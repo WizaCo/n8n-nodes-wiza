@@ -5,4 +5,7 @@ module.exports = {
 	testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 	collectCoverageFrom: ['nodes/**/*.ts', '!nodes/**/*.node.ts'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+	moduleNameMapper: {
+		'^uuid$': '<rootDir>/test/uuid-shim.js',
+	},
 };
