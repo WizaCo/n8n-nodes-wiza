@@ -16,7 +16,7 @@
     "url": "git+https://github.com/WizaCo/n8n-nodes-wiza.git"
   },
   "engines": {
-    "node": ">=20.15"
+    "node": ">=22.0.0"
   },
   "main": "index.js",
   "scripts": {
