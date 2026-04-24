@@ -1,6 +1,6 @@
 {
   "name": "@wizaco/n8n-nodes-wiza",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "n8n node for Wiza contact enrichment API",
   "keywords": [
     "n8n-community-node-package"
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/WizaCo/n8n-nodes-wiza.git"
   },
   "engines": {
-    "node": ">=20.15"
+    "node": ">=22.0.0"
   },
   "main": "index.js",
   "scripts": {
@@ -45,10 +45,10 @@
     "@types/jest": "^30.0.0",
     "@typescript-eslint/parser": "~8.32.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.3",
+    "eslint-plugin-n8n-nodes-base": "^1.16.6",
     "gulp": "^5.0.0",
     "jest": "^30.2.0",
-    "n8n-workflow": "^1.112.0",
+    "n8n-workflow": "^2.17.0",
     "prettier": "^3.5.3",
     "ts-jest": "^29.4.4",
     "typescript": "^5.8.2"

@@ -32,25 +32,25 @@ Find LinkedIn profiles and extract key details using:
 
 1. Go to **Settings > Community Nodes** in your n8n instance
 2. Select **Install a community node**
-3. Enter `n8n-nodes-wiza`
+3. Enter `@wizaco/n8n-nodes-wiza`
 4. Click **Install**
 
 ### Manual Installation
 
 ```bash
 # In your n8n root directory
-npm install n8n-nodes-wiza
+npm install @wizaco/n8n-nodes-wiza
 ```
 
 ### Docker
 
 ```bash
 # Using environment variable
-N8N_NODES_INCLUDE=n8n-nodes-wiza
+N8N_NODES_INCLUDE=@wizaco/n8n-nodes-wiza
 
 # Or in docker-compose.yml
 environment:
-  N8N_NODES_INCLUDE: "n8n-nodes-wiza"
+  N8N_NODES_INCLUDE: "@wizaco/n8n-nodes-wiza"
 ```
 
 ## Setup
