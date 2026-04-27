@@ -210,6 +210,10 @@ Database Query → Wiza Email Finder → Email Validation → Clean Database Upd
 
 Contributions are welcome! Please read our [contributing guidelines](CODE_OF_CONDUCT.md) and submit pull requests to the main repository.
 
+## Releasing
+
+Maintainers: see [RELEASING.md](RELEASING.md) for how to publish a new version.
+
 ---
 
 Made with ❤️ by the Wiza team
