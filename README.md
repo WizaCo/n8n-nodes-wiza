@@ -212,7 +212,7 @@ Contributions are welcome! Please read our [contributing guidelines](CODE_OF_CON
 
 ## Releasing
 
-Maintainers: see [RELEASING.md](RELEASING.md) for how to publish a new version.
+Maintainers: see [RELEASING.md](https://github.com/WizaCo/n8n-nodes-wiza/blob/master/RELEASING.md) for how to publish a new version.
 
 ---
 
