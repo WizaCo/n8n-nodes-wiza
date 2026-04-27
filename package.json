@@ -27,7 +27,7 @@
     "lintfix": "eslint nodes credentials package.json --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "prepublishOnly": "npm run build && eslint --config .eslintrc.prepublish.js nodes credentials package.json"
   },
   "files": [
     "dist"
